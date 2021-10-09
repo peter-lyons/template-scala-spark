@@ -2,15 +2,17 @@
 - Replicate this for pipeline projects
 
 ## Development Environment
-To begin, my IDE of choice for this would be VSCode with Scala Metals for local build/test. Metals uses maven, so this works perfectly. I started with "creating a new scala project" in Metals, and chose a basic maven template. It's a barebones template that gives me the freedom to add layers as time goes on. One slight hiccup is that I'm using apple silicon, so there were a few extra steps in getting things like JRE/JDK/Spark etc.. set up.
+- VSCode with Scala Metals for local build/test. Metals uses maven, so this works perfectly. 
+- configure the Maven pom.xml file to support build profiles, and add all the dependencies required for Metals/bloop. 
+- Next dependencies to be added are for spark, Postgres, and Oracle
+- Database support for Oracle and Postgres. Credentials stored in a separate file on server.
+- Package through command line Maven args and specify the build profile for a particular pipeline, and it will build with the main class as defined in the profile properties. It can also be overriden by passing in a different class arg when invoking through spark-submit.
 
-One of the first priorites was to configure the Maven pom.xml file to support build profiles, and add all the dependencies required for Metals/bloop. The next dependencies to be added were for spark, redis, scalascaper, and scalajhttp.
-
-For data storage I have a Redis instance running on a raspberry pi on my network, with plans to add PostgresSql, Airflow and Jenkins for continuous deployment and scheduling.
-
-What I like about this setup is the ability to rapidly test via Metals/Bloop continuous building. As long as any scala object extends App, which contains the main method, then you can run that object via the built in VSCode debugger.
-
-Then, when everything is good to go, I can package through commandline Maven args and specify the build profile for a particular pipeline, and it will build with the main class as defined in the profile properties. It can also be overriden by passing in a different class arg when invoking through spark-submit.
+## TODO
+- Update JDK/JRE to java 11
+- Scala 3?
+- Create framework for implementing basic SQL
+- Create framework for implementing python files
 
 ## Draft Data Pipeline
 
@@ -28,13 +30,16 @@ Then, when everything is good to go, I can package through commandline Maven arg
 
 ### Build Automation
 - Jenkins
+  - pulls latest version of repository
+  - runs mvn build args
+  - copies the output target and airflow dag to specified directory
 - GitLab dual push pipeline
 
 ### Job Scheduling
 - Airflow 2.x
 
 ### Deployment
-- TBD
+- Internal server
 
 ### Maven Pom
 - https://www.tutorialspoint.com/maven/maven_build_profiles.htm
