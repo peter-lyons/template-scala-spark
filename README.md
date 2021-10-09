@@ -12,6 +12,8 @@
 - Update JDK/JRE to java 11
 - Scala 3?
 - Create framework for implementing basic SQL
+  - Use a pushdown query framework. Analysts provide the SQL query they want in production, and we can either submit it to Oracle or PostgresDB for execution. The result will be read into memory and written out to specified database (Postgres)
+  - There's two options for approaching here, new project jar for each asset, or continually add assets to the same project. In the form of a config file.
 - Create framework for implementing python files
 
 ## Draft Data Pipeline
